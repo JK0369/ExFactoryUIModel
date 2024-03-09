@@ -11,10 +11,11 @@ import RxSwift
 
 enum Action {
     case viewDidLoad
+    case didSelect(row: Int)
 }
 
 protocol DataSourceable {
-    var dataSource: [String] { get }
+    var dataSource: [Model] { get }
 }
 
 protocol ViewModelable: DataSourceable {
@@ -60,6 +61,7 @@ class ViewController: UIViewController {
         ])
         
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     private func bind() {
@@ -77,13 +79,19 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.dataSource.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        cell?.textLabel?.text = viewModel.dataSource[indexPath.row]
+        cell?.textLabel?.text = viewModel.dataSource[indexPath.row].n
         return cell!
+    }
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        viewModel.input(.didSelect(row: indexPath.row))
     }
 }
