@@ -39,8 +39,8 @@ final class ViewModel: ViewModelable {
             print("some handling when tap row...")
         }
     }
-    
-    func requestAPI() -> Single<[Int]> {
-        .just((1...10).map { $0 })
-    }
+}
+
+func requestAPI() -> Single<[Int]> {
+    .just((1...10).map { $0 })
 }
