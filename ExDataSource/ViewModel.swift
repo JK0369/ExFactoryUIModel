@@ -30,8 +30,9 @@ final class ViewModel: ViewModelable {
         case .viewDidLoad:
             requestAPI()
                 .subscribe { [weak self] data in
-                    self?.dataSource = data
-                        .map { Model(n: String($0)) }
+//                    self?.dataSource = data
+//                        .map { Model(n: String($0) + "번째") }
+                    self?.dataSource = SomeFactory.makeFirstUIModel(apiResponse: data)
                     self?.outputSubject.onNext(.updateUI)
                 }
                 .disposed(by: disposeBag)
